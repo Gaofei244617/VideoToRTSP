@@ -5,6 +5,9 @@
 extern "C"
 {
 #include <libavformat/avformat.h>
+#include <libavcodec/avcodec.h>
+#include <libavutil/imgutils.h>
+#include <libswscale/swscale.h>
 }
 
 static std::string toUtf8(const std::string& str)
@@ -32,6 +35,89 @@ static std::string toUtf8(const std::string& str)
 	pBuf = NULL;
 
 	return retStr;
+}
+
+// 解码一帧视频
+static QImage decode_one_frame(AVFormatContext* pInFmtCtx, int index)
+{
+	QImage image;
+
+	AVCodecParameters* codecpar = pInFmtCtx->streams[index]->codecpar;
+	AVCodecContext* codecContext = NULL;
+	const AVCodec* codec = NULL;
+
+	codec = avcodec_find_decoder(codecpar->codec_id);
+	if (!codec)
+	{
+		goto end;
+	}
+
+	codecContext = avcodec_alloc_context3(codec);
+	if (!codecContext)
+	{
+		goto end;
+	}
+
+	if (avcodec_parameters_to_context(codecContext, codecpar) < 0)
+	{
+		goto end;
+	}
+
+	if (avcodec_open2(codecContext, codec, nullptr) < 0)
+	{
+		goto end;
+	}
+
+	AVPacket packet;
+	while (av_read_frame(pInFmtCtx, &packet) >= 0)
+	{
+		if (packet.stream_index == index && (packet.flags & AV_PKT_FLAG_KEY))
+		{
+			AVFrame* frame = av_frame_alloc();
+			int ret = avcodec_send_packet(codecContext, &packet);
+			if (ret < 0)
+			{
+				continue;
+			}
+
+			ret = avcodec_receive_frame(codecContext, frame);
+			if (ret == 0)
+			{
+				int width = codecpar->width;
+				int height = codecpar->height;
+
+				int size = av_image_get_buffer_size(AV_PIX_FMT_RGB24, width, height, 1);
+				uint8_t* outBuf = static_cast<uint8_t*>(av_malloc(size));
+				AVFrame* frameOut = av_frame_alloc();
+				av_image_fill_arrays(frameOut->data, frameOut->linesize, outBuf, AV_PIX_FMT_RGB24, width, height, 1);
+
+				SwsContext* swsCtx = sws_getContext(width, height, codecContext->pix_fmt, width, height, AV_PIX_FMT_RGB24, SWS_BICUBIC, NULL, NULL, NULL);
+				auto srcSlice = static_cast<const uint8_t* const*>(frame->data);
+				sws_scale(swsCtx, srcSlice, frame->linesize, 0, height, frameOut->data, frameOut->linesize);
+
+				image = QImage(static_cast<uchar*>(frameOut->data[0]), width, height, QImage::Format_RGB888).copy();
+
+				av_frame_unref(frameOut);
+				av_frame_free(&frameOut);
+
+				av_free(outBuf);
+				sws_freeContext(swsCtx);
+
+				av_packet_unref(&packet);
+				av_frame_free(&frame);
+
+				break;
+			}
+		}
+	}
+
+end:
+	if (codecContext)
+	{
+		avcodec_free_context(&codecContext);
+	}
+
+	return image;
 }
 
 VideoInfo GetVideoInfo(const std::string& video)
@@ -121,6 +207,9 @@ VideoInfo GetVideoInfo(const std::string& video)
 	{
 		info.encode = EncodeType::HEVC;
 	}
+
+	// 解码一帧视频
+	info.image = decode_one_frame(pInFmtCtx, info.video_index);
 
 end:
 	if (pInFmtCtx)

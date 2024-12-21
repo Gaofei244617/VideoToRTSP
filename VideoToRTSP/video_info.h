@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <QImage>
 
 enum class EncodeType
 {
@@ -20,6 +21,7 @@ struct VideoInfo
 	int stream_num = 0;      // 流数量
 	int video_index = -1;    // 视频流索引
 	EncodeType encode;       // 视频流编码格式
+	QImage image;            // 解码一帧图片
 };
 
 VideoInfo GetVideoInfo(const std::string& video);
