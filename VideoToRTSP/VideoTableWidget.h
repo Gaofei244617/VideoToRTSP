@@ -29,6 +29,7 @@ protected:
 
 	void mouseMoveEvent(QMouseEvent* event) override;
 	void mouseReleaseEvent(QMouseEvent* event) override;
+	void mouseDoubleClickEvent(QMouseEvent* event) override;
 
 	void showToolTip(QMouseEvent* event);
 	QString getRtspUrl(const QString& video, const QString& ip); // rtsp url

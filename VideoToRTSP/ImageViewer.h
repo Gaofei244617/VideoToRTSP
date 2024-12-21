@@ -14,6 +14,7 @@ public:
 	~ImageViewer();
 
 	void setImage(const QImage& image);
+	void setTitle(const QString& title);
 
 protected:
 	void resizeEvent(QResizeEvent* event) override;

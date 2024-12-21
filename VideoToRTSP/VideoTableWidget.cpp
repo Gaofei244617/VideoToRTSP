@@ -9,6 +9,7 @@
 #include <QMessageBox>
 #include <QToolTip>
 #include <QDateTime>
+#include "ImageViewer.h"
 #include "VideoTableWidget.h"
 
 static int count = 1;
@@ -91,6 +92,7 @@ VideoTableWidget::~VideoTableWidget()
 	stopAll();
 }
 
+// 添加推流视频
 void VideoTableWidget::addTableItem(const QString& video)
 {
 	QFileInfo fileInfo(video);
@@ -327,6 +329,25 @@ void VideoTableWidget::mouseMoveEvent(QMouseEvent* event)
 void VideoTableWidget::mouseReleaseEvent(QMouseEvent* event)
 {
 	showToolTip(event);
+}
+
+void VideoTableWidget::mouseDoubleClickEvent(QMouseEvent* event)
+{
+	QModelIndex index = this->indexAt(event->pos());
+	int row = index.row();
+	int col = index.column();
+
+	if (row >= 0 && col == 1)
+	{
+		// 显示视频画面预览
+		ImageViewer* view = new ImageViewer();
+		view->setImage(m_videos[row].image);
+
+		QString fileName = QFileInfo(QString::fromLocal8Bit(m_videos[row].url)).fileName();
+		view->setTitle(fileName);
+
+		view->show();
+	}
 }
 
 void VideoTableWidget::showToolTip(QMouseEvent* event)
