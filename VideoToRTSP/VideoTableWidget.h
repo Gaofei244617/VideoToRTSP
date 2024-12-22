@@ -7,7 +7,6 @@
 #include <memory>
 #include "video_info.h"
 #include "send_rtsp.h"
-#include "pinyin.h"
 
 class VideoTableWidget : public QTableWidget
 {
@@ -37,5 +36,4 @@ protected:
 protected:
 	QList<VideoInfo> m_videos;
 	QList<std::shared_ptr<RtspSender>> m_senders;  // 推流器
-	ZhToPY py;  // 中文转拼音
 }; 
