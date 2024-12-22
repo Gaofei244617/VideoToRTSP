@@ -33,7 +33,6 @@ protected:
 
 	void showToolTip(QMouseEvent* event);
 	QString getRtspUrl(const QString& video, const QString& ip); // rtsp url
-	QString toString(const VideoInfo& videoInfo);
 
 protected:
 	QList<VideoInfo> m_videos;

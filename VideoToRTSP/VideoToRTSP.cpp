@@ -1,6 +1,7 @@
 #include <QMessageBox>
 #include <QDir>
 #include <filesystem>
+#include <spdlog/spdlog.h>
 #include "VideoToRTSP.h"
 
 VideoToRTSP::VideoToRTSP(QWidget* parent)
@@ -16,11 +17,17 @@ VideoToRTSP::VideoToRTSP(QWidget* parent)
 		mediamtx->start("mediamtx.exe");
 		if (!mediamtx->waitForStarted())
 		{
+			spdlog::error("无法启动推流服务");
 			QMessageBox::about(nullptr, "错误", "无法启动推流服务");
+		}
+		else
+		{
+			spdlog::info("Start mediamtx.exe success");
 		}
 	}
 	else
 	{
+		spdlog::error("Can not find mediamtx.exe");
 		QMessageBox::about(nullptr, "错误", "Can not find mediamtx.exe");
 	}
 }

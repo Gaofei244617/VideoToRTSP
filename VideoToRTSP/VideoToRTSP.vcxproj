@@ -60,11 +60,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <IncludePath>$(SolutionDir)3rdparty\ffmpeg\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)3rdparty\spdlog\include;$(SolutionDir)3rdparty\ffmpeg\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)3rdparty\ffmpeg\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <IncludePath>$(SolutionDir)3rdparty\ffmpeg\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)3rdparty\spdlog\include;$(SolutionDir)3rdparty\ffmpeg\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)3rdparty\ffmpeg\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

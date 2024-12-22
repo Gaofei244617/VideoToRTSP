@@ -1,3 +1,4 @@
+#include <filesystem>
 #include <QHeaderView>
 #include <QPushButton>
 #include <QComboBox>
@@ -9,6 +10,7 @@
 #include <QMessageBox>
 #include <QToolTip>
 #include <QDateTime>
+#include <spdlog/spdlog.h>
 #include "ImageViewer.h"
 #include "VideoTableWidget.h"
 
@@ -32,6 +34,39 @@ static QStringList getLocalIPs()
 	}
 
 	return ips;
+}
+
+static std::string toString(EncodeType encode)
+{
+	std::string type;
+	switch (encode)
+	{
+	case EncodeType::H264:
+		type = "H.264";
+		break;
+	case EncodeType::HEVC:
+		type = "H.265";
+		break;
+	case EncodeType::Other:
+		type = "Other";
+		break;
+	}
+
+	return type;
+}
+
+static QString toString(const VideoInfo& videoInfo)
+{
+	QString info;
+
+	info += "视频: " + QString::fromLocal8Bit(videoInfo.url) + "\n";
+	info += "文件: " + QString::number(videoInfo.size / 1024.0 / 1024) + " MB\n";
+	info += "时长: " + QString::number(videoInfo.duration) + " 秒\n";
+	info += "帧率: " + QString::number(videoInfo.fps) + " fps\n";
+	info += "宽高: " + QString::number(videoInfo.width) + "x" + QString::number(videoInfo.height) + "\n";
+	info += "编码格式: " + QString::fromStdString(toString(videoInfo.encode));
+
+	return info;
 }
 
 VideoTableWidget::VideoTableWidget(QWidget* parent) : QTableWidget(parent)
@@ -90,26 +125,33 @@ VideoTableWidget::VideoTableWidget(QWidget* parent) : QTableWidget(parent)
 VideoTableWidget::~VideoTableWidget()
 {
 	stopAll();
+	spdlog::info("Program exitp");
 }
 
 // 添加推流视频
 void VideoTableWidget::addTableItem(const QString& video)
 {
+	std::filesystem::path videoPath(video.toLocal8Bit().toStdString());
+
 	QFileInfo fileInfo(video);
 	QString suffix = fileInfo.suffix(); // 文件后缀
 	if (suffix != "ts" && suffix != "mp4" && suffix != "h264" && suffix != "h265" && suffix != "flv" && suffix != "avi")
 	{
+		spdlog::error("非视频文件: {}", videoPath.filename().string());
 		QMessageBox::about(nullptr, "错误", "非视频文件: " + fileInfo.fileName());
 		return;
 	}
 
 	// 视频信息
-	VideoInfo videoInfo = GetVideoInfo(video.toLocal8Bit().toStdString());
+	VideoInfo videoInfo = GetVideoInfo(videoPath.string());
 	if (videoInfo.encode != EncodeType::H264 && videoInfo.encode != EncodeType::HEVC)
 	{
+		spdlog::error("不支持的视频编码格式: {}", videoPath.filename().string());
 		QMessageBox::about(nullptr, "错误", "不支持的视频编码格式: " + fileInfo.fileName());
 		return;
 	}
+
+	spdlog::info("Add video: [{}], Duration: {} s, {}x{}, fps: {}, Encode: {}", videoPath.filename().string(), videoInfo.duration, videoInfo.width, videoInfo.height, videoInfo.fps, toString(videoInfo.encode));
 
 	/**** 添加数据 ****/
 	int row = this->rowCount();
@@ -173,6 +215,8 @@ void VideoTableWidget::addTableItem(const QString& video)
 	this->item(row, 0)->setFlags(this->item(row, 0)->flags() & (~Qt::ItemIsEditable));
 	this->item(row, 1)->setFlags(this->item(row, 1)->flags() & (~Qt::ItemIsEditable));
 	this->item(row, 4)->setFlags(this->item(row, 4)->flags() & (~Qt::ItemIsEditable));
+
+	spdlog::info("Add video: [{}] success", videoPath.filename().string());
 }
 
 void VideoTableWidget::stopAll()
@@ -197,12 +241,15 @@ void VideoTableWidget::onDelButtonClicked()
 	QModelIndex index = this->indexAt(QPoint(x, y));
 	int row = index.row();
 
-	m_videos.removeAt(row);
+	std::string video = m_videos[row].url;
+	std::string url = this->item(row, 2)->text().toStdString();
 
 	// 停止推流
 	m_senders[row]->stop();
-	m_senders.removeAt(row);
+	spdlog::info("Stop {}", url);
 
+	m_senders.removeAt(row);
+	m_videos.removeAt(row);
 	this->removeRow(row);
 
 	// 刷新序号
@@ -211,6 +258,8 @@ void VideoTableWidget::onDelButtonClicked()
 	{
 		this->item(row, 0)->setText(QString::number(i + 1));
 	}
+
+	spdlog::info("Delete {} success", video);
 }
 
 // 推流
@@ -250,15 +299,21 @@ void VideoTableWidget::onPushButtonClicked()
 				item->setForeground(QColor(0, 127, 0));
 			};
 
+		spdlog::info("Start to push {}", config.url);
 		m_senders[row]->async_send_rtsp(config); // 推流
 
 		button->setText("停止");
 		QComboBox* comboBox = dynamic_cast<QComboBox*>(this->cellWidget(row, 3));
 		comboBox->setEnabled(false);
 		comboBox->setStyleSheet("QComboBox{border-radius: 0px;color:#aaaaaa;} QComboBox::drop-down {border: none;} QComboBox::hover {background-color: green;}");
+
+		spdlog::info("Push {} success", config.url);
 	}
 	else
 	{
+		std::string url = this->item(row, 2)->text().toStdString();
+		spdlog::info("Start to stop {}", url);
+
 		m_senders[row]->stop(); // 停止推流
 
 		button->setText("推流");
@@ -268,6 +323,7 @@ void VideoTableWidget::onPushButtonClicked()
 		QComboBox* comboBox = dynamic_cast<QComboBox*>(this->cellWidget(row, 3));
 		comboBox->setEnabled(true);
 		comboBox->setStyleSheet("QComboBox{border-radius: 0px;color:black;} QComboBox::drop-down {border: none;} QComboBox::hover {background-color: green;}");
+		spdlog::info("Stop {} success", url);
 	}
 }
 
@@ -378,32 +434,4 @@ QString VideoTableWidget::getRtspUrl(const QString& video, const QString& ip)
 	QFileInfo fileInfo(video);
 	//return "rtsp://" + ip + ":8554/" + py.zhToPY(fileInfo.baseName());
 	return "rtsp://" + ip + ":8554/stream/" + QString::number(count++);
-}
-
-QString VideoTableWidget::toString(const VideoInfo& videoInfo)
-{
-	QString info;
-
-	QString encode;
-	switch (videoInfo.encode)
-	{
-	case EncodeType::H264:
-		encode = "H.264";
-		break;
-	case EncodeType::HEVC:
-		encode = "H.265";
-		break;
-	case EncodeType::Other:
-		encode = "Other";
-		break;
-	}
-
-	info += "视频: " + QString::fromLocal8Bit(videoInfo.url) + "\n";
-	info += "文件: " + QString::number(videoInfo.size / 1024.0 / 1024) + " MB\n";
-	info += "时长: " + QString::number(videoInfo.duration) + " 秒\n";
-	info += "帧率: " + QString::number(videoInfo.fps) + " fps\n";
-	info += "宽高: " + QString::number(videoInfo.width) + "x" + QString::number(videoInfo.height) + "\n";
-	info += "编码格式: " + encode;
-
-	return info;
 }
