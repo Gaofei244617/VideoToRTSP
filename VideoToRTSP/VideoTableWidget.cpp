@@ -404,6 +404,10 @@ void VideoTableWidget::mouseDoubleClickEvent(QMouseEvent* event)
 
 		view->show();
 	}
+	else
+	{
+		QTableWidget::mouseDoubleClickEvent(event);
+	}
 }
 
 void VideoTableWidget::showToolTip(QMouseEvent* event)
