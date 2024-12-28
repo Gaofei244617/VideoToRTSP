@@ -111,7 +111,7 @@ VideoTableWidget::VideoTableWidget(QWidget* parent) : QTableWidget(parent)
 	this->setMouseTracking(true);
 
 	// 鼠标悬停样式
-	this->setStyleSheet("QTableWidget::item:hover {color: white; background-color: green;}");
+	this->setStyleSheet("QTableWidget::item:hover {color: white; background-color: green;} QLineEdit { background-color: white; }");
 
 	// 支持鼠标拖放文件
 	this->setAcceptDrops(true);
