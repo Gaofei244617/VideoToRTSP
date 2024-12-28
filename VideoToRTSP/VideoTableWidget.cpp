@@ -84,6 +84,9 @@ VideoTableWidget::VideoTableWidget(QWidget* parent) : QTableWidget(parent)
 	font.setBold(true);
 	this->horizontalHeader()->setFont(font);
 
+	// 设置表头样式
+	this->horizontalHeader()->setStyleSheet("QHeaderView::section { height: 30px; background-color: #eeffee; color: black;}");
+
 	// 设置列宽
 	this->horizontalHeader()->resizeSection(0, 50);
 	this->horizontalHeader()->resizeSection(1, 200);
