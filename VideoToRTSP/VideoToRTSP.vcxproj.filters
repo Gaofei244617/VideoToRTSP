@@ -49,9 +49,6 @@
     <ClCompile Include="send_rtsp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pinyin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ImageViewer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -69,9 +66,6 @@
     <ClInclude Include="video_info.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pinyin.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VideoToRTSP.rc">
@@ -85,11 +79,6 @@
     <Image Include="logo.ico">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="pinyin.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="ImageViewer.h">

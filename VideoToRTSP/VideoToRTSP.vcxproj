@@ -113,7 +113,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ImageViewer.cpp" />
-    <ClCompile Include="pinyin.cpp" />
     <ClCompile Include="video_info.cpp" />
     <QtRcc Include="VideoToRTSP.qrc" />
     <QtUic Include="ImageViewer.ui" />
@@ -126,7 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="ImageViewer.h" />
-    <ClInclude Include="pinyin.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="send_rtsp.h" />
     <ClInclude Include="VideoTableWidget.h" />
@@ -138,9 +136,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="logo.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="pinyin.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
