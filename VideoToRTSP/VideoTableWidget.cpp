@@ -286,10 +286,11 @@ void VideoTableWidget::onPushButtonClicked()
 		config.url = this->item(row, 2)->text().toStdString();
 		config.loop = 1000000;
 
+		double duration = m_videos.at(row).duration;  // 视频时长
 		QDateTime startTime = QDateTime::currentDateTime();
 		QTableWidgetItem* item = this->item(row, 4);
 
-		config.callback = [item, startTime](double p)
+		config.callback = [item, startTime, duration](double p)
 			{
 				QDateTime curTime = QDateTime::currentDateTime();
 				int seconds = startTime.secsTo(curTime);
@@ -297,7 +298,20 @@ void VideoTableWidget::onPushButtonClicked()
 				int m = seconds % 3600 / 60;
 				int s = seconds % 60;
 
-				QString txt = "[" + QString("%1:%2:%3").arg(h).arg(m, 2, 10, QLatin1Char('0')).arg(s, 2, 10, QLatin1Char('0')) + "]  " + QString::number(p * 100, 'f', 1) + " %";
+				QString txt;
+				if (duration > 5000)
+				{
+					txt = "[" + QString("%1:%2:%3").arg(h).arg(m, 2, 10, QLatin1Char('0')).arg(s, 2, 10, QLatin1Char('0')) + "]  " + QString::number(p * 100, 'f', 2) + " %";
+				}
+				else if (duration > 500)
+				{
+					txt = "[" + QString("%1:%2:%3").arg(h).arg(m, 2, 10, QLatin1Char('0')).arg(s, 2, 10, QLatin1Char('0')) + "]  " + QString::number(p * 100, 'f', 1) + " %";
+				}
+				else
+				{
+					txt = "[" + QString("%1:%2:%3").arg(h).arg(m, 2, 10, QLatin1Char('0')).arg(s, 2, 10, QLatin1Char('0')) + "]  " + QString::number(int(p * 100 + 0.5)) + " %";
+				}
+
 				item->setText(txt);
 				item->setForeground(QColor(0, 127, 0));
 			};
