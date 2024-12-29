@@ -358,8 +358,10 @@ void VideoTableWidget::onActivated(int index)
 	int row = this->indexAt(QPoint(x, y)).row();
 
 	QString ip = comboBox->itemText(index);
-	QString video = this->item(row, 1)->text();
-	QString url = getRtspUrl(video, ip);
+	QString url = this->item(row, 2)->text(); // Example rtsp://192.168.3.52:8554/stream/1
+	
+	size_t i = url.indexOf(QString(":8554"));
+	url.replace(7, i - 7, ip);
 
 	this->item(row, 2)->setText(url);
 }
