@@ -36,6 +36,7 @@ VideoToRTSP::~VideoToRTSP()
 {
 	ui->tableWidget->stopAll();
 	mediamtx->kill();
+	spdlog::info("Stop mediamtx.exe");
 
 	delete mediamtx;
 	delete ui;

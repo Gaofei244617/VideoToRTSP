@@ -283,7 +283,7 @@ void VideoTableWidget::onPushButtonClicked()
 	{
 		RTSPConfig config;
 		config.video = m_videos.at(row).url;
-		config.url = this->item(row, 2)->text().toStdString();
+		config.url = this->item(row, 2)->text().toStdString(); // 流地址
 		config.loop = 1000000;
 
 		double duration = m_videos.at(row).duration;  // 视频时长
