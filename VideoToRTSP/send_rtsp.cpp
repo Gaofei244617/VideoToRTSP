@@ -180,7 +180,7 @@ int RtspSender::send_rtsp(const RTSPConfig& config)
 		// 重新打开文件
 		avio_closep(&pInFmtCtx->pb);
 		avformat_close_input(&pInFmtCtx);
-		ret = avformat_open_input(&pInFmtCtx, videoInfo.url.c_str(), NULL, NULL);
+		ret = avformat_open_input(&pInFmtCtx, toUtf8(config.video).c_str(), NULL, NULL);
 		if (ret < 0)
 		{
 			ret = 20;
