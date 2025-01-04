@@ -1,4 +1,4 @@
-#include "ImageViewer.h"
+#include "image_viewer.h"
 
 ImageViewer::ImageViewer(QWidget* parent)
 	: QWidget(parent),

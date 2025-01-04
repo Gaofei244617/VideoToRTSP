@@ -11,8 +11,8 @@
 #include <QToolTip>
 #include <QDateTime>
 #include <spdlog/spdlog.h>
-#include "ImageViewer.h"
-#include "VideoTableWidget.h"
+#include "image_viewer.h"
+#include "video_table_widget.h"
 
 static int count = 1;
 

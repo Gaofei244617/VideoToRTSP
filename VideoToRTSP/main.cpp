@@ -1,7 +1,7 @@
 #include <QtWidgets/QApplication>
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
-#include "VideoToRTSP.h"
+#include "video_to_rtsp.h"
 
 int main(int argc, char* argv[])
 {

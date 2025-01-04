@@ -26,13 +26,13 @@
     <QtRcc Include="VideoToRTSP.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtUic Include="VideoToRTSP.ui">
+    <QtUic Include="video_to_rtsp.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtMoc Include="VideoToRTSP.h">
+    <QtMoc Include="video_to_rtsp.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClCompile Include="VideoToRTSP.cpp">
+    <ClCompile Include="video_to_rtsp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -40,7 +40,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VideoTableWidget.cpp">
+    <ClCompile Include="video_table_widget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="video_info.cpp">
@@ -49,12 +49,12 @@
     <ClCompile Include="send_rtsp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ImageViewer.cpp">
+    <ClCompile Include="image_viewer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="VideoTableWidget.h">
+    <ClInclude Include="video_table_widget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
@@ -81,12 +81,12 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="ImageViewer.h">
+    <QtMoc Include="image_viewer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="ImageViewer.ui">
+    <QtUic Include="image_viewer.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

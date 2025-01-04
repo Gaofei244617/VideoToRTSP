@@ -42,7 +42,7 @@
   <customwidget>
    <class>VideoTableWidget</class>
    <extends>QTableWidget</extends>
-   <header>videotablewidget.h</header>
+   <header location="global">video_table_widget.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -3,7 +3,7 @@
 #include <QtWidgets/QWidget>
 #include <QResizeEvent>
 #include <QImage>
-#include "ui_ImageViewer.h"
+#include "ui_image_viewer.h"
 
 class ImageViewer : public QWidget
 {

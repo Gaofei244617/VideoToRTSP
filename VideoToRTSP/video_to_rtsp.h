@@ -2,7 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QProcess>
-#include "ui_VideoToRTSP.h"
+#include "ui_video_to_rtsp.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class VideoToRTSPClass; };

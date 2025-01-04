@@ -36,4 +36,4 @@ protected:
 protected:
 	QList<VideoInfo> m_videos;
 	QList<std::shared_ptr<RtspSender>> m_senders;  // 推流器
-}; 
+};

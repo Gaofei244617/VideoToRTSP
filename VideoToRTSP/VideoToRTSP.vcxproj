@@ -112,22 +112,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ImageViewer.cpp" />
+    <ClCompile Include="image_viewer.cpp" />
     <ClCompile Include="video_info.cpp" />
     <QtRcc Include="VideoToRTSP.qrc" />
-    <QtUic Include="ImageViewer.ui" />
-    <QtUic Include="VideoToRTSP.ui" />
-    <QtMoc Include="VideoToRTSP.h" />
+    <QtUic Include="image_viewer.ui" />
+    <QtUic Include="video_to_rtsp.ui" />
+    <QtMoc Include="video_to_rtsp.h" />
     <ClCompile Include="send_rtsp.cpp" />
-    <ClCompile Include="VideoTableWidget.cpp" />
-    <ClCompile Include="VideoToRTSP.cpp" />
+    <ClCompile Include="video_table_widget.cpp" />
+    <ClCompile Include="video_to_rtsp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="ImageViewer.h" />
+    <QtMoc Include="image_viewer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="send_rtsp.h" />
-    <ClInclude Include="VideoTableWidget.h" />
+    <ClInclude Include="video_table_widget.h" />
     <ClInclude Include="video_info.h" />
   </ItemGroup>
   <ItemGroup>
