@@ -127,7 +127,6 @@ VideoInfo GetVideoInfo(const std::string& video)
 	AVFormatContext* pInFmtCtx = NULL;
 	AVStream* pVideoStream = NULL;
 	AVCodecParameters* codecpar = NULL;
-	AVDictionary* options = NULL;
 
 	if (!std::filesystem::exists(video))
 	{
