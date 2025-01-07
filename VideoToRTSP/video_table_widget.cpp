@@ -12,8 +12,6 @@
 #include <QDateTime>
 #include <QDesktopServices>
 #include <spdlog/spdlog.h>
-#include "image_viewer.h"
-#include "video_player.h"
 #include "video_table_widget.h"
 
 static int count = 1;
@@ -416,19 +414,7 @@ void VideoTableWidget::mouseDoubleClickEvent(QMouseEvent* event)
 
 	if (row >= 0 && col == 1)
 	{
-		//// 显示视频画面预览
-		//ImageViewer* view = new ImageViewer();
-		//view->setImage(m_videos[row].image);
-
-		//QString fileName = QFileInfo(QString::fromLocal8Bit(m_videos[row].url)).fileName();
-		//view->setTitle(fileName);
-		//view->show();
-
-		//// 视频播放
-		//VideoPlayer* player = new VideoPlayer();
-		//player->show();
-		//player->play(m_videos[row].url);
-
+		// 视频播放
 		QString video = QString::fromLocal8Bit(m_videos[row].url);
 		QDesktopServices::openUrl(QUrl::fromLocalFile(video));
 	}

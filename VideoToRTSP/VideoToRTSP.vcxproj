@@ -112,26 +112,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="image_viewer.cpp" />
-    <ClCompile Include="video_decoder.cpp" />
     <ClCompile Include="video_info.cpp" />
     <QtRcc Include="VideoToRTSP.qrc" />
-    <QtUic Include="image_viewer.ui" />
-    <QtUic Include="video_player.ui" />
     <QtUic Include="video_to_rtsp.ui" />
     <QtMoc Include="video_to_rtsp.h" />
     <ClCompile Include="send_rtsp.cpp" />
-    <ClCompile Include="video_player.cpp" />
     <ClCompile Include="video_table_widget.cpp" />
     <ClCompile Include="video_to_rtsp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="image_viewer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="send_rtsp.h" />
-    <QtMoc Include="video_player.h" />
-    <ClInclude Include="video_decoder.h" />
     <ClInclude Include="video_table_widget.h" />
     <ClInclude Include="video_info.h" />
   </ItemGroup>
