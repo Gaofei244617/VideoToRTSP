@@ -10,8 +10,10 @@
 #include <QMessageBox>
 #include <QToolTip>
 #include <QDateTime>
+#include <QDesktopServices>
 #include <spdlog/spdlog.h>
 #include "image_viewer.h"
+#include "video_player.h"
 #include "video_table_widget.h"
 
 static int count = 1;
@@ -359,7 +361,7 @@ void VideoTableWidget::onActivated(int index)
 
 	QString ip = comboBox->itemText(index);
 	QString url = this->item(row, 2)->text(); // Example rtsp://192.168.3.52:8554/stream/1
-	
+
 	size_t i = url.indexOf(QString(":8554"));
 	url.replace(7, i - 7, ip);
 
@@ -414,14 +416,21 @@ void VideoTableWidget::mouseDoubleClickEvent(QMouseEvent* event)
 
 	if (row >= 0 && col == 1)
 	{
-		// 显示视频画面预览
-		ImageViewer* view = new ImageViewer();
-		view->setImage(m_videos[row].image);
+		//// 显示视频画面预览
+		//ImageViewer* view = new ImageViewer();
+		//view->setImage(m_videos[row].image);
 
-		QString fileName = QFileInfo(QString::fromLocal8Bit(m_videos[row].url)).fileName();
-		view->setTitle(fileName);
+		//QString fileName = QFileInfo(QString::fromLocal8Bit(m_videos[row].url)).fileName();
+		//view->setTitle(fileName);
+		//view->show();
 
-		view->show();
+		//// 视频播放
+		//VideoPlayer* player = new VideoPlayer();
+		//player->show();
+		//player->play(m_videos[row].url);
+
+		QString video = QString::fromLocal8Bit(m_videos[row].url);
+		QDesktopServices::openUrl(QUrl::fromLocalFile(video));
 	}
 	else
 	{

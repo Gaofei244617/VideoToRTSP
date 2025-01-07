@@ -52,6 +52,12 @@
     <ClCompile Include="image_viewer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="video_player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="video_decoder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="video_table_widget.h">
@@ -64,6 +70,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="video_info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="video_decoder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -84,9 +93,15 @@
     <QtMoc Include="image_viewer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="video_player.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="image_viewer.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="video_player.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
