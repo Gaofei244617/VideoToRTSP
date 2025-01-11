@@ -436,13 +436,21 @@ void VideoTableWidget::showToolTip(QMouseEvent* event)
 			VideoInfo info = m_videos.at(row);
 			QToolTip::showText(event->globalPosition().toPoint(), toString(info));
 		}
-		else if (col == 5 || col == 6)
+		else if (col == 2)
 		{
-			QToolTip::showText(event->globalPosition().toPoint(), "按钮");
+			QToolTip::showText(event->globalPosition().toPoint(), "双击拷贝");
 		}
 		else if (col == 3)
 		{
 			QToolTip::showText(event->globalPosition().toPoint(), "点击下拉");
+		}
+		else if (col == 4)
+		{
+			QToolTip::showText(event->globalPosition().toPoint(), "推流状态");
+		}
+		else if (col == 5 || col == 6)
+		{
+			QToolTip::showText(event->globalPosition().toPoint(), "按钮");
 		}
 	}
 }
