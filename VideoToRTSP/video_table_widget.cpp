@@ -178,7 +178,8 @@ void VideoTableWidget::addTableItem(const QString& video)
 	QObject::connect(comboBox, &QComboBox::activated, this, &VideoTableWidget::onActivated);
 
 	// [2] RTSP地址
-	QString url = getRtspUrl(video, comboBox->currentText());
+	QString ip = comboBox->currentText();
+	QString url = "rtsp://" + ip + ":8554/live/" + QString::number(count++);
 	this->setItem(row, 2, new QTableWidgetItem(url));
 
 	// [4] 状态
@@ -453,11 +454,4 @@ void VideoTableWidget::showToolTip(QMouseEvent* event)
 			QToolTip::showText(event->globalPosition().toPoint(), "按钮");
 		}
 	}
-}
-
-QString VideoTableWidget::getRtspUrl(const QString& video, const QString& ip)
-{
-	QFileInfo fileInfo(video);
-	//return "rtsp://" + ip + ":8554/" + py.zhToPY(fileInfo.baseName());
-	return "rtsp://" + ip + ":8554/stream/" + QString::number(count++);
 }

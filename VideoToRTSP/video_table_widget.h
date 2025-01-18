@@ -31,7 +31,6 @@ protected:
 	void mouseDoubleClickEvent(QMouseEvent* event) override;
 
 	void showToolTip(QMouseEvent* event);
-	QString getRtspUrl(const QString& video, const QString& ip); // rtsp url
 
 protected:
 	QList<VideoInfo> m_videos;
