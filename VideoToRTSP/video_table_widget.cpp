@@ -128,7 +128,7 @@ VideoTableWidget::VideoTableWidget(QWidget* parent) : QTableWidget(parent)
 VideoTableWidget::~VideoTableWidget()
 {
 	stopAll();
-	spdlog::info("Program exitp");
+	spdlog::info("Program exit");
 }
 
 // 添加推流视频
